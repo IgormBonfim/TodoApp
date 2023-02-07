@@ -10,4 +10,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TodoApp.Aplicacao\TodoApp.Aplicacao.csproj" />
+    <ProjectReference Include="..\TodoApp.Ioc\TodoApp.Ioc.csproj" />
+  </ItemGroup>
+
 </Project>
