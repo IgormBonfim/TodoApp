@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TodoApp.Dominio.Tarefas.Entidades;
+using TodoApp.Dominio.Tarefas.Enumeradores;
 using Xunit;
 
 namespace TodoApp.Dominio.Testes.Tarefas.Entidades
@@ -26,15 +27,17 @@ namespace TodoApp.Dominio.Testes.Tarefas.Entidades
             {
                 string nome = "Nome da tarefa";
                 string detalhes = "Detalhes da tarefa";
+                StatusTarefaEnum status = StatusTarefaEnum.AguardandoInicio;
 
                 DateTime agora = DateTime.Now;
 
-                var tarefa = new Tarefa(nome, detalhes);
+                var tarefa = new Tarefa(nome, detalhes, status);
 
                 tarefa.Nome.Should().Be(nome);
                 tarefa.Detalhes.Should().Be(detalhes);
+                tarefa.Status.Should().Be(status);
                 tarefa.DataCadastro.Should().BeAfter(agora);
-                tarefa.Concluido.Should().BeFalse();
+                tarefa.DataAtualizacao.Should().BeNull();
                 tarefa.DataConclusao.Should().BeNull();
             }
         }
@@ -63,6 +66,59 @@ namespace TodoApp.Dominio.Testes.Tarefas.Entidades
 
                 sut.SetNome(nome);
                 sut.Nome.Should().Be(nome);
+            }
+        }
+
+        public class SetDetalhesMetodo : TarefaTestes
+        {
+            [Theory]
+            [InlineData(null)]
+            [InlineData(" ")]
+            [InlineData("")]
+            public void Quando_AtributoForNuloOuEspacoEmBranco_Espero_Excecao(string nome)
+            {
+                sut.Invoking(x => x.SetDetalhes(nome)).Should().Throw<Exception>();
+            }
+
+            [Fact]
+            public void Dado_DetalhesComMenosDeSeisCaracteres_Espero_Exception()
+            {
+                sut.Invoking(x => x.SetDetalhes("eeee")).Should().Throw<Exception>();
+            }
+
+            [Fact]
+            public void Quando_DetalhesForValido_Espero_PropriedadePreenchida()
+            {
+                string detalhes = "Detalhes da Tarefa";
+
+                sut.SetDetalhes(detalhes);
+                sut.Detalhes.Should().Be(detalhes);
+            }
+        }
+
+        public class SetStatusMetodo : TarefaTestes
+        {
+            [Fact]
+            public void Quando_ParametroForValido_Espero_PropriedadePreenchida()
+            {
+                StatusTarefaEnum status = StatusTarefaEnum.Iniciada;
+
+                sut.SetStatus(status);
+
+                sut.Status.Should().Be(status);
+            }
+        }
+
+        public class SetDataConclusao : TarefaTestes
+        {
+            [Fact]
+            public void Quando_ParametroForValido_Espero_PropriedadePreenchida()
+            {
+                DateTime data = DateTime.Now;
+
+                sut.SetDataConclusao(data);
+
+                sut.DataConclusao.Should().Be(data);
             }
         }
     }
