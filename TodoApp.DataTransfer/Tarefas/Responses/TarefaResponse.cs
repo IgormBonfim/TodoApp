@@ -11,8 +11,9 @@ namespace TodoApp.DataTransfer.Tarefas.Responses
         public string Id { get; set; }
         public string Nome { get; set; }
         public string Detalhes { get; set; }
-        public bool Concluido { get; set; }
+        public string Status { get; set; }
         public DateTime DataCadastro { get; set; }
+        public DateTime? DataAtualizacao { get; set; }
         public DateTime? DataConclusao { get; set; }
     }
 }
