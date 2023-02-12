@@ -11,7 +11,7 @@ namespace TodoApp.Dominio.Tarefas.Repositorios
     {
         void Adicionar(Tarefa tarefa);
         void Atualizar(string id, Tarefa tarefa);
-        IEnumerable<Tarefa> Listar();
+        IList<Tarefa> Listar();
         Tarefa Recuperar(string id);
         void Excluir(string id);
     }

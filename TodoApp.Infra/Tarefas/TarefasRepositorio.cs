@@ -29,22 +29,22 @@ namespace TodoApp.Infra.Tarefas
 
         public void Atualizar(string id, Tarefa tarefa)
         {
-            _mongoCollection.ReplaceOne(id, tarefa);
+            _mongoCollection.ReplaceOne(tarefa => tarefa.Id == id, tarefa);
         }
 
         public void Excluir(string id)
         {
-            _mongoCollection.DeleteOne(id);
+            _mongoCollection.DeleteOne(tarefa => tarefa.Id == id);
         }
 
-        public IEnumerable<Tarefa> Listar()
+        public IList<Tarefa> Listar()
         {
             return _mongoCollection.Find(tarefa => true).ToList();
         }
 
         public Tarefa Recuperar(string id)
         {
-            return _mongoCollection.Find(id).FirstOrDefault();
+            return _mongoCollection.Find(tarefa => tarefa.Id == id).FirstOrDefault();
         }
     }
 }
