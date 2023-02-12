@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TodoApp.Dominio.Tarefas.Enumeradores;
 
 namespace TodoApp.Dominio.Tarefas.Entidades
 {
@@ -11,18 +12,19 @@ namespace TodoApp.Dominio.Tarefas.Entidades
         public string Id { get; protected set; }
         public string Nome { get; protected set; }
         public string Detalhes { get; protected set; }
-        public bool Concluido { get; protected set; }
+        public StatusTarefaEnum Status { get; protected set; }
         public DateTime DataCadastro { get; protected set; }
+        public DateTime? DataAtualizacao { get; protected set; }
         public DateTime? DataConclusao { get; protected set; }
 
         public Tarefa() { }
 
-        public Tarefa(string nome, string detalhes)
+        public Tarefa(string nome, string detalhes, StatusTarefaEnum status)
         {
             SetId();
             SetNome(nome);
             SetDetalhes(detalhes);
-            SetConcluido(false);
+            SetStatus(status);
             SetDataCadastro();
         }
 
@@ -43,16 +45,16 @@ namespace TodoApp.Dominio.Tarefas.Entidades
 
         public void SetDetalhes(string detalhes)
         {
-            if (string.IsNullOrWhiteSpace(detalhes) || detalhes.Length < 5)
+            if (string.IsNullOrWhiteSpace(detalhes) || detalhes.Length <= 5)
             {
                 throw new Exception("O campo detalhes é obrigatório");
             }
             Detalhes = detalhes;
         }
 
-        public void SetConcluido(bool concluido)
+        public void SetStatus(StatusTarefaEnum status)
         {
-            Concluido = concluido;
+            Status = status;
         }
 
         protected void SetDataCadastro()
@@ -61,9 +63,14 @@ namespace TodoApp.Dominio.Tarefas.Entidades
             DataCadastro = hoje;
         }
 
-        public void SetDataConclusao(DateTime dataConclusao)
+        public void SetDataAtualizacao()
         {
-            DataConclusao = dataConclusao;
+            DataAtualizacao = DateTime.Now;
+        }
+
+        public void SetDataConclusao(DateTime? data)
+        {
+            DataConclusao = data;
         }
     }
 }
