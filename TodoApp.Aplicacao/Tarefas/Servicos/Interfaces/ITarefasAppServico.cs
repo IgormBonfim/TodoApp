@@ -11,5 +11,9 @@ namespace TodoApp.Aplicacao.Tarefas.Servicos.Interfaces
     public interface ITarefasAppServico
     {
         TarefaResponse Inserir(TarefaInserirRequest request);
+        TarefaResponse Atualizar(TarefaAtualizarRequest request);
+        TarefaResponse Recuperar(string id);
+        void Excluir(string id);
+        IList<TarefaResponse> Listar();
     }
 }
