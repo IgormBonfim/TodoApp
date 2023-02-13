@@ -56,7 +56,7 @@ namespace TodoApp.Dominio.Tarefas.Servicos
 
         public Tarefa Instanciar(string nome, string detalhes)
         {
-            return new Tarefa(nome, detalhes, StatusTarefaEnum.AguardandoInicio);
+            return new Tarefa(nome, detalhes, StatusTarefaEnum.Aguardando);
         }
 
         public Tarefa Validar(string id)

@@ -27,7 +27,7 @@ namespace TodoApp.Dominio.Testes.Tarefas.Entidades
             {
                 string nome = "Nome da tarefa";
                 string detalhes = "Detalhes da tarefa";
-                StatusTarefaEnum status = StatusTarefaEnum.AguardandoInicio;
+                StatusTarefaEnum status = StatusTarefaEnum.Aguardando;
 
                 DateTime agora = DateTime.Now;
 
@@ -101,7 +101,7 @@ namespace TodoApp.Dominio.Testes.Tarefas.Entidades
             [Fact]
             public void Quando_ParametroForValido_Espero_PropriedadePreenchida()
             {
-                StatusTarefaEnum status = StatusTarefaEnum.Iniciada;
+                StatusTarefaEnum status = StatusTarefaEnum.Andamento;
 
                 sut.SetStatus(status);
 
