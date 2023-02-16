@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TodoApp.Dominio.Genericos.Entidades;
 using TodoApp.Dominio.Tarefas.Enumeradores;
 
 namespace TodoApp.Dominio.Tarefas.Entidades
 {
-    public class Tarefa
+    public class Tarefa : Entidade
     {
-        public string Id { get; protected set; }
         public string Nome { get; protected set; }
         public string Detalhes { get; protected set; }
         public StatusTarefaEnum Status { get; protected set; }
@@ -19,19 +19,12 @@ namespace TodoApp.Dominio.Tarefas.Entidades
 
         public Tarefa() { }
 
-        public Tarefa(string nome, string detalhes, StatusTarefaEnum status)
+        public Tarefa(string nome, string detalhes, StatusTarefaEnum status) : base()
         {
-            SetId();
             SetNome(nome);
             SetDetalhes(detalhes);
             SetStatus(status);
             SetDataCadastro();
-        }
-
-        public void SetId()
-        {
-            string guid = Guid.NewGuid().ToString();
-            Id = guid;
         }
 
         public void SetNome(string nome)

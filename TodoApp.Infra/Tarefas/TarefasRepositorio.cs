@@ -7,44 +7,12 @@ using System.Threading.Tasks;
 using TodoApp.Dominio.Tarefas.Entidades;
 using TodoApp.Dominio.Tarefas.Repositorios;
 using TodoApp.Infra.Configs.Interfaces;
+using TodoApp.Infra.Genericos;
 
 namespace TodoApp.Infra.Tarefas
 {
-    public class TarefasRepositorio : ITarefasRepositorio
+    public class TarefasRepositorio : MongoRepositorio<Tarefa>, ITarefasRepositorio
     {
-        private readonly IMongoCollection<Tarefa> _mongoCollection;
-
-        public TarefasRepositorio(IDatabaseConfig databaseConfig)
-        {
-            var client = new MongoClient(databaseConfig.ConnectionString);
-            var database = client.GetDatabase(databaseConfig.DatabaseName);
-
-            _mongoCollection = database.GetCollection<Tarefa>("tarefas");
-        }
-
-        public void Adicionar(Tarefa tarefa)
-        {
-            _mongoCollection.InsertOne(tarefa);
-        }
-
-        public void Atualizar(string id, Tarefa tarefa)
-        {
-            _mongoCollection.ReplaceOne(tarefa => tarefa.Id == id, tarefa);
-        }
-
-        public void Excluir(string id)
-        {
-            _mongoCollection.DeleteOne(tarefa => tarefa.Id == id);
-        }
-
-        public IList<Tarefa> Listar()
-        {
-            return _mongoCollection.Find(tarefa => true).ToList();
-        }
-
-        public Tarefa Recuperar(string id)
-        {
-            return _mongoCollection.Find(tarefa => tarefa.Id == id).FirstOrDefault();
-        }
+        public TarefasRepositorio(IMongoDatabaseConfiguration mongoDatabaseConfiguration) : base(mongoDatabaseConfiguration, "tarefas") { }
     }
 }

@@ -22,8 +22,10 @@ namespace TodoApp.Ioc
     {
         public static void RegistrarServicos(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<DatabaseConfig>(configuration.GetSection(nameof(DatabaseConfig)));
-            services.AddSingleton<IDatabaseConfig>(x => x.GetRequiredService<IOptions<DatabaseConfig>>().Value);
+            string connectionString = configuration.GetSection("DatabaseConfig:ConnectionString").Value;
+            string databaseName = configuration.GetSection("DatabaseConfig:DatabaseName").Value;
+
+            services.AddScoped<IMongoDatabaseConfiguration>(x => MongoDatabaseFluent.Configure().ConfigureClient(connectionString).ConfigureDatabaseName(databaseName));
 
             services.AddScoped<ITarefasAppServico, TarefasAppServico>();
             services.AddScoped<ITarefasServico, TarefasServico>();
