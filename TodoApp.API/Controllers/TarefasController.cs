@@ -19,9 +19,9 @@ namespace TodoApp.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IList<TarefaResponse>> Listar()
+        public ActionResult<IList<TarefaResponse>> Listar([FromQuery] TarefaListarRequest request)
         {
-            var response = _tarefasAppServico.Listar();
+            var response = _tarefasAppServico.Listar(request);
             return Ok(response);
         }
 

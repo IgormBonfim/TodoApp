@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TodoApp.DataTransfer.Genericos.Responses;
 using TodoApp.DataTransfer.Tarefas.Requests;
 using TodoApp.DataTransfer.Tarefas.Responses;
 
@@ -14,6 +15,6 @@ namespace TodoApp.Aplicacao.Tarefas.Servicos.Interfaces
         TarefaResponse Atualizar(TarefaAtualizarRequest request);
         TarefaResponse Recuperar(string id);
         void Excluir(string id);
-        IList<TarefaResponse> Listar();
+        PaginacaoResponse<TarefaResponse> Listar(TarefaListarRequest request);
     }
 }

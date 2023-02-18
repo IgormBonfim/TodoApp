@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TodoApp.Aplicacao.Tarefas.Servicos.Interfaces;
+using TodoApp.DataTransfer.Genericos.Responses;
 using TodoApp.DataTransfer.Tarefas.Requests;
 using TodoApp.DataTransfer.Tarefas.Responses;
+using TodoApp.Dominio.Genericos.Entidades;
 using TodoApp.Dominio.Tarefas.Entidades;
 using TodoApp.Dominio.Tarefas.Repositorios;
 using TodoApp.Dominio.Tarefas.Servicos.Comandos;
@@ -51,10 +53,15 @@ namespace TodoApp.Aplicacao.Tarefas.Servicos
             return _mapper.Map<TarefaResponse>(tarefa);
         }
 
-        public IList<TarefaResponse> Listar()
+        public PaginacaoResponse<TarefaResponse> Listar(TarefaListarRequest request)
         {
-            IList<Tarefa> tarefas = _tarefasRepositorio.Listar();
-            return _mapper.Map<IList<TarefaResponse>>(tarefas);
+            var query = _tarefasRepositorio.Query();
+
+            if (request.Nome != null)
+                query.Where(x => x.Nome == request.Nome);
+
+            Paginacao<Tarefa> tarefas = _tarefasRepositorio.Listar(query, request.Pagina, request.Quantidade);
+            return _mapper.Map<PaginacaoResponse<TarefaResponse>>(tarefas);
         }
 
         public TarefaResponse Recuperar(string id)

@@ -13,6 +13,8 @@ namespace TodoApp.Dominio.Genericos.Interfaces
         T Adicionar(T entidade);
         T Atualizar(string id, T entidade);
         IList<T> Listar();
+        Paginacao<T> Listar(IQueryable<T> query, int pagina, int quantidade);
+        IQueryable<T> Query();
         T Recuperar(string id);
         void Excluir(string id);
     }

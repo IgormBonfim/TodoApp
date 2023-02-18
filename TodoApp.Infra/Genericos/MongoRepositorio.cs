@@ -43,9 +43,42 @@ namespace TodoApp.Infra.Genericos
             return _mongoCollection.Find(entidade => true).ToList();
         }
 
+        public Paginacao<T> Listar(IQueryable<T> query, int pagina, int quantidade)
+        {
+            int total = query.Count();
+            query = Paginar(query, pagina, quantidade);
+
+            return ListarPaginado(query, pagina, quantidade, total);
+        }
+
+        private Paginacao<T> ListarPaginado(IQueryable<T> query, int pagina, int quantidade, int total)
+        {
+            List<T> items = query.ToList();
+
+            return new Paginacao<T>
+            {
+                TotalItems = total,
+                Pagina = pagina,
+                Quantidade = quantidade,
+                Lista = items,
+            };
+        }
+
+        private IQueryable<T> Paginar(IQueryable<T> query, int pagina, int quantidade)
+        {
+            int pular = (pagina * quantidade) - quantidade;
+
+            return query.Skip(pular).Take(quantidade);
+        }
+
         public T Recuperar(string id)
         {
             return _mongoCollection.Find(entidade => entidade.Id == id).FirstOrDefault();
+        }
+
+        public IQueryable<T> Query()
+        {
+            return _mongoCollection.AsQueryable();
         }
     }
 }
