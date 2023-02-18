@@ -35,7 +35,7 @@ namespace TodoApp.API.Middlewares
             {
                 response = TratarBadRequestException(e);
             } 
-            if (exceptionType == typeof(NotFoundException))
+            else if (exceptionType == typeof(NotFoundException))
             {
                 response = TratarNotFoundException(e);
             }
