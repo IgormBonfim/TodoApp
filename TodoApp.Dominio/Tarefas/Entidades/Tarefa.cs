@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TodoApp.Dominio.Genericos.Entidades;
+using TodoApp.Dominio.Genericos.Exceptions;
 using TodoApp.Dominio.Tarefas.Enumeradores;
 
 namespace TodoApp.Dominio.Tarefas.Entidades
@@ -31,7 +32,7 @@ namespace TodoApp.Dominio.Tarefas.Entidades
         {
             if (string.IsNullOrWhiteSpace(nome) || nome.Length <= 3)
             {
-                throw new Exception("O campo nome é obrigatório");
+                throw new BadRequestException("O campo nome é obrigatório");
             }
             Nome = nome;
         }
@@ -40,7 +41,7 @@ namespace TodoApp.Dominio.Tarefas.Entidades
         {
             if (string.IsNullOrWhiteSpace(detalhes) || detalhes.Length <= 5)
             {
-                throw new Exception("O campo detalhes é obrigatório");
+                throw new BadRequestException("O campo detalhes é obrigatório");
             }
             Detalhes = detalhes;
         }

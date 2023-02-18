@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TodoApp.Dominio.Genericos.Exceptions;
 using TodoApp.Dominio.Tarefas.Entidades;
 using TodoApp.Dominio.Tarefas.Enumeradores;
 using TodoApp.Dominio.Tarefas.Repositorios;
@@ -25,7 +21,7 @@ namespace TodoApp.Dominio.Tarefas.Servicos
             Tarefa tarefa = Validar(comando.Id);
 
             if (tarefa.Status == StatusTarefaEnum.Concluida)
-                throw new Exception("Não é possível editar uma Tarefa concluída.");
+                throw new BadRequestException("Não é possível editar uma Tarefa concluída.");
 
             if (comando.Nome != null)
                 tarefa.SetNome(comando.Nome);
@@ -64,7 +60,7 @@ namespace TodoApp.Dominio.Tarefas.Servicos
             Tarefa tarefa = _tarefasRepositorio.Recuperar(id);
 
             if (tarefa == null)
-                throw new Exception("Tarefa não encontrada.");
+                throw new NotFoundException("Tarefa não encontrada.");
 
             return tarefa;
         }
