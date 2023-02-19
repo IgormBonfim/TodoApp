@@ -57,9 +57,6 @@ namespace TodoApp.Aplicacao.Tarefas.Servicos
         {
             var query = _tarefasRepositorio.Query();
 
-            if (request.Nome != null)
-                query.Where(x => x.Nome == request.Nome);
-
             Paginacao<Tarefa> tarefas = _tarefasRepositorio.Listar(query, request.Pagina, request.Quantidade);
             return _mapper.Map<PaginacaoResponse<TarefaResponse>>(tarefas);
         }
