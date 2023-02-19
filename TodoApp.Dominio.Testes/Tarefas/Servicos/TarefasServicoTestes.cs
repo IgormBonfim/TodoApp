@@ -73,7 +73,7 @@ namespace TodoApp.Dominio.Testes.Tarefas.Servicos
                 tarefaComando.Id = "Id da tarefa";
                 tarefaComando.Nome = "Tarefa Atualizada";
                 tarefaComando.Detalhes = "Detalhes atualizado";
-                tarefaComando.Status = StatusTarefaEnum.Iniciada;
+                tarefaComando.Status = StatusTarefaEnum.Andamento;
 
                 var tarefa = sut.Atualizar(tarefaComando);
 

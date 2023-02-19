@@ -27,7 +27,6 @@ namespace TodoApp.API.Middlewares
 
         private static Task TratarExceptionAsync(HttpContext context, Exception e)
         {
-            HttpStatusCode status;
             ExceptionResponse response;
             var exceptionType = e.GetType();
 
