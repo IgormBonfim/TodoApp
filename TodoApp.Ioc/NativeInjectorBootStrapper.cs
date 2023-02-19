@@ -23,9 +23,6 @@ namespace TodoApp.Ioc
         public static void RegistrarServicos(this IServiceCollection services, IConfiguration configuration)
         {
             string connectionString = configuration.GetSection("DatabaseConfig:ConnectionString").Value;
-
-            Console.WriteLine(connectionString);
-
             string databaseName = configuration.GetSection("DatabaseConfig:DatabaseName").Value;
 
             services.AddScoped<IMongoDatabaseConfiguration>(x => MongoDatabaseFluent.Configure().ConfigureClient(connectionString).ConfigureDatabaseName(databaseName));
