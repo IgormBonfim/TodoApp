@@ -5,7 +5,7 @@ namespace TodoApp.API
 {
     public class Program
     {
-        public static IConfiguration Configuration = new ConfigurationBuilder()
+        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)
