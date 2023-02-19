@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TodoApp.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/testes")]
     [ApiController]
     public class TesteController : ControllerBase
     {
