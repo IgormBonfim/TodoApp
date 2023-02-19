@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace TodoApp.API.Controllers
 {
@@ -25,12 +24,10 @@ namespace TodoApp.API.Controllers
             string ambiente = environment.EnvironmentName;
             string connectionString = configuration.GetSection("DatabaseConfig:ConnectionString").Value;
             string dataBaseName = configuration.GetSection("DatabaseConfig:DatabaseName").Value;
-            string envTest = "Variavel: " + Environment.GetEnvironmentVariable("DatabaseName");
 
             variables.Add(ambiente);
             variables.Add(connectionString);
             variables.Add(dataBaseName);
-            variables.Add(envTest);
 
             return Ok(variables);
         }
