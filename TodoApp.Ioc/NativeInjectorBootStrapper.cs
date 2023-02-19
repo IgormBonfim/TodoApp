@@ -25,8 +25,13 @@ namespace TodoApp.Ioc
             string connectionString = configuration.GetSection("DatabaseConfig:ConnectionString").Value;
             string databaseName = configuration.GetSection("DatabaseConfig:DatabaseName").Value;
 
-            if (connectionString != null)
-                ConnectionHelper.GetConnectionString();
+            if (connectionString == null)
+            {
+                var config = ConnectionHelper.GetConnectionString();
+
+                connectionString = config.ConnectionString;
+                databaseName = config.DatabaseName;
+            }
 
             services.AddScoped<IMongoDatabaseConfiguration>(x => MongoDatabaseFluent.Configure().ConfigureClient(connectionString).ConfigureDatabaseName(databaseName));
 
