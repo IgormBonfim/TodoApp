@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -22,21 +20,13 @@ namespace TodoApp.Ioc
 {
     public static class NativeInjectorBootStrapper
     {
-        public static void RegistrarServicos(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
+        public static void RegistrarServicos(this IServiceCollection services, IConfiguration configuration)
         {
-            string connectionString;
-            string databaseName;
+            string connectionString = configuration.GetSection("DatabaseConfig:ConnectionString").Value;
+            string databaseName = configuration.GetSection("DatabaseConfig:DatabaseName").Value;
 
-            if (env.IsDevelopment())
-            {
-                connectionString = configuration.GetSection("DatabaseConfig:ConnectionString").Value;
-                databaseName = configuration.GetSection("DatabaseConfig:DatabaseName").Value;
-            }
-            else
-            {
-                connectionString = Environment.GetEnvironmentVariable("connectionString");
-                databaseName = Environment.GetEnvironmentVariable("DatabaseName");
-            }
+            if (connectionString != null)
+                ConnectionHelper.GetConnectionString();
 
             services.AddScoped<IMongoDatabaseConfiguration>(x => MongoDatabaseFluent.Configure().ConfigureClient(connectionString).ConfigureDatabaseName(databaseName));
 
