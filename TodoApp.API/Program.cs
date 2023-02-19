@@ -19,7 +19,6 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
 app.UseMiddleware(typeof(TratamentoErrosGlobalMiddleware));
 
 app.UseCors(c =>
