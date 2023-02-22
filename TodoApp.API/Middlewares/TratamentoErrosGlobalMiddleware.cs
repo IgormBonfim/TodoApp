@@ -19,66 +19,42 @@ namespace TodoApp.API.Middlewares
             {
                 await _next(context);
             }
+            catch (HttpException e)
+            {
+                await TratarHttpExceptionAsync(context, e);
+            }
             catch (Exception e)
             {
                 await TratarExceptionAsync(context, e);
             }
         }
 
+        private static Task TratarHttpExceptionAsync(HttpContext context, HttpException e)
+        {
+            ExceptionResponse response = new ExceptionResponse
+            {
+                Status = e.StatusCode,
+                Mensagem = e.Message,
+                StackTrace = e.StackTrace
+            };
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)e.StatusCode;
+            return context.Response.WriteAsJsonAsync(response);
+        }
+
         private static Task TratarExceptionAsync(HttpContext context, Exception e)
         {
-            ExceptionResponse response;
-            var exceptionType = e.GetType();
-
-            if (exceptionType == typeof(BadRequestException))
+            ExceptionResponse response = new ExceptionResponse 
             {
-                response = TratarBadRequestException(e);
-            } 
-            else if (exceptionType == typeof(NotFoundException))
-            {
-                response = TratarNotFoundException(e);
-            }
-            else
-            {
-                response = InternalServerError(e);
-            }
+                Status = HttpStatusCode.InternalServerError,
+                Mensagem = e.Message,
+                StackTrace = e.StackTrace
+            };
 
             context.Response.ContentType= "application/json";
             context.Response.StatusCode = (int) response.Status;
             return context.Response.WriteAsJsonAsync(response);
-        }
-
-        private static ExceptionResponse TratarBadRequestException(Exception e)
-        {
-            ExceptionResponse response = new ExceptionResponse();
-
-            response.Mensagem = e.Message;
-            response.StackTrace = e.StackTrace;
-            response.Status = HttpStatusCode.BadRequest;
-
-            return response;
-        }
-
-        private static ExceptionResponse TratarNotFoundException(Exception e)
-        {
-            ExceptionResponse response = new ExceptionResponse();
-
-            response.Mensagem = e.Message;
-            response.StackTrace = e.StackTrace;
-            response.Status = HttpStatusCode.NotFound;
-
-            return response;
-        }
-
-        private static ExceptionResponse InternalServerError(Exception e)
-        {
-            ExceptionResponse response = new ExceptionResponse();
-
-            response.Mensagem = e.Message;
-            response.StackTrace = e.StackTrace;
-            response.Status = HttpStatusCode.InternalServerError;
-
-            return response;
         }
     }
 }

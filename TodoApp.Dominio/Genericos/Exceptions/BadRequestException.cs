@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TodoApp.Dominio.Genericos.Exceptions
 {
-    public class BadRequestException : Exception
+    public class BadRequestException : HttpException
     {
-        public BadRequestException()
+        public BadRequestException() : base(HttpStatusCode.BadRequest)
+        {
+
+        }
+        public BadRequestException(string? message) : base(message, HttpStatusCode.BadRequest)
         {
         }
 
-        public BadRequestException(string? message) : base(message)
+        public BadRequestException(string? message, Exception? innerException) : base(message, innerException, HttpStatusCode.BadRequest)
         {
         }
 
-        public BadRequestException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
-
-        protected BadRequestException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected BadRequestException(SerializationInfo info, StreamingContext context) : base(info, context, HttpStatusCode.BadRequest)
         {
         }
     }
